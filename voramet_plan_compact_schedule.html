@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voramet — Hybrid Recomp Plan</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;color:#1a1a18;padding:24px 16px;font-size:14px;}
+  .page{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+  .card{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:14px;padding:16px 20px;}
+  .card-sm{background:#f5f4f0;border-radius:8px;padding:10px 12px;}
+  .sl{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#888780;margin:0 0 10px;}
+  .big-num{font-size:28px;font-weight:500;line-height:1;}
+  .sub{font-size:12px;color:#5f5e5a;}
+  .divider{border:none;border-top:0.5px solid rgba(0,0,0,0.08);margin:10px 0;}
+  .bar-wrap{background:#f1efe8;border-radius:4px;height:8px;overflow:hidden;}
+  .bar-fill{height:8px;border-radius:4px;}
+  .macro-row{display:flex;align-items:center;gap:8px;margin:6px 0;}
+  .macro-label{font-size:12px;color:#5f5e5a;width:62px;flex-shrink:0;}
+  .macro-bar-wrap{flex:1;background:#f1efe8;border-radius:4px;height:6px;}
+  .macro-bar{height:6px;border-radius:4px;}
+  .macro-val{font-size:12px;font-weight:500;width:50px;text-align:right;flex-shrink:0;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  /* Schedule */
+  .sched-head{display:grid;grid-template-columns:52px 1fr 1fr 1fr;gap:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#888780;margin-bottom:6px;padding:0 2px;}
+  .sched-row{display:grid;grid-template-columns:52px 1fr 1fr 1fr;gap:5px;margin-bottom:5px;align-items:start;}
+  .day-cell{border-radius:8px;padding:7px 8px;display:flex;flex-direction:column;justify-content:center;}
+  .day-name{font-size:11px;font-weight:600;}
+  .session-btn{border-radius:8px;padding:7px 9px;cursor:pointer;border:none;width:100%;text-align:left;font-family:inherit;transition:opacity 0.15s;}
+  .session-btn:hover{opacity:0.82;}
+  .session-btn .sname{font-size:11px;font-weight:600;display:block;}
+  .session-btn .stype{font-size:10px;display:block;margin-top:1px;}
+  .session-btn .stoggle{font-size:9px;display:block;margin-top:4px;opacity:0.65;}
+  .empty-cell{border-radius:8px;padding:7px 9px;background:#f5f4f0;display:flex;align-items:center;justify-content:center;}
+  .rest-cell{grid-column:span 3;border-radius:8px;padding:7px 12px;background:#f5f4f0;display:flex;align-items:center;}
+
+  /* Expandable drawer */
+  .ex-drawer{display:none;margin-top:4px;background:#fff;border:0.5px solid rgba(0,0,0,0.15);border-radius:8px;padding:8px 10px;}
+  .ex-drawer.open{display:block;}
+  .ex-item{display:flex;gap:6px;padding:3px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);}
+  .ex-item:last-child{border-bottom:none;}
+  .ex-num{font-size:10px;font-weight:600;color:#888780;width:14px;flex-shrink:0;padding-top:1px;}
+  .ex-name{font-size:11px;font-weight:600;color:#1a1a18;}
+  .ex-detail{font-size:10px;color:#888780;}
+
+  .food-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(0,0,0,0.06);font-size:12px;}
+  .food-row:last-child{border-bottom:none;}
+  .pbadge{font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;background:#E6F1FB;color:#0C447C;}
+
+  @media(max-width:600px){.grid2{grid-template-columns:1fr;}.sched-head,.sched-row{grid-template-columns:44px 1fr 1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="width:50px;height:50px;border-radius:50%;background:#E6F1FB;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#0C447C;flex-shrink:0;">V</div>
+      <div style="flex:1;">
+        <div style="font-size:17px;font-weight:600;color:#1a1a18;margin-bottom:3px;">Voramet — Hybrid Recomp Plan</div>
+        <div style="font-size:12px;color:#5f5e5a;">Male · 26 · 180 cm · Bangkok 🇹🇭</div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="text-align:center;"><div class="big-num" style="color:#185FA5;">74.1</div><div class="sub">kg</div></div>
+        <div style="text-align:center;"><div class="big-num" style="color:#0F6E56;">34.8</div><div class="sub">kg muscle</div></div>
+        <div style="text-align:center;"><div class="big-num" style="color:#BA7517;">17.4%</div><div class="sub">body fat</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BF JOURNEY -->
+  <div class="card">
+    <p class="sl">Body fat journey</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+      <div class="card-sm" style="border-left:3px solid #E24B4A;border-radius:0 8px 8px 0;"><div style="font-size:18px;font-weight:600;color:#E24B4A;">17.4%</div><div style="font-size:11px;color:#5f5e5a;">Now — borderline avg</div><div style="font-size:10px;color:#888780;margin-top:2px;">74.1 kg</div></div>
+      <div class="card-sm" style="border-left:3px solid #EF9F27;border-radius:0 8px 8px 0;"><div style="font-size:18px;font-weight:600;color:#EF9F27;">15%</div><div style="font-size:11px;color:#5f5e5a;">Phase 1 · 8–12 wks</div><div style="font-size:10px;color:#888780;margin-top:2px;">~72.5 kg</div></div>
+      <div class="card-sm" style="border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;"><div style="font-size:18px;font-weight:600;color:#1D9E75;">13%</div><div style="font-size:11px;color:#5f5e5a;">Phase 2 · +8–10 wks</div><div style="font-size:10px;color:#888780;margin-top:2px;">~71.5 kg</div></div>
+      <div class="card-sm" style="border-left:3px solid #378ADD;border-radius:0 8px 8px 0;"><div style="font-size:18px;font-weight:600;color:#378ADD;">11–12%</div><div style="font-size:11px;color:#5f5e5a;">Stretch · +6–8 wks</div><div style="font-size:10px;color:#888780;margin-top:2px;">~70 kg</div></div>
+    </div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#378ADD 0%,#1D9E75 40%,#EF9F27 70%,#E24B4A 100%);"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+      <span style="font-size:10px;color:#888780;">11% athletic</span>
+      <span style="font-size:10px;color:#BA7517;font-weight:600;">▲ you are here</span>
+      <span style="font-size:10px;color:#888780;">25%+ obese</span>
+    </div>
+  </div>
+
+  <!-- WEEKLY SCHEDULE -->
+  <div class="card">
+    <p class="sl">Weekly schedule — click session to see exercises</p>
+    <div class="sched-head"><div></div><div>Morning</div><div>Afternoon</div><div>Evening</div></div>
+
+    <!-- MON -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#EEEDFE;"><span class="day-name" style="color:#3C3489;">Mon</span><span style="font-size:9px;color:#7F77DD;">Hypertrophy</span></div>
+      <div>
+        <button class="session-btn" style="background:#EEEDFE;" onclick="toggle('mon-lb')">
+          <span class="sname" style="color:#3C3489;">Lower B</span>
+          <span class="stype" style="color:#7F77DD;">~50 min · 7 exercises</span>
+          <span class="stoggle" style="color:#7F77DD;" id="mon-lb-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="mon-lb">
+          <div class="ex-item"><span class="ex-num">1</span><div><div class="ex-name">Front/Goblet Squat</div><div class="ex-detail">8–10 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">2</span><div><div class="ex-name">Dumbbell RDL</div><div class="ex-detail">10–12 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">3</span><div><div class="ex-name">Walking Lunges</div><div class="ex-detail">10–12/leg · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">4</span><div><div class="ex-name">Leg Extension</div><div class="ex-detail">12–15 reps · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">5</span><div><div class="ex-name">Leg Curl</div><div class="ex-detail">12–15 reps · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">6</span><div><div class="ex-name">Seated Calf Raise</div><div class="ex-detail">12–15 reps · 3 sets · 60 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">7</span><div><div class="ex-name">Cable Crunch</div><div class="ex-detail">12–15 reps · 3 sets · 60 sec rest</div></div></div>
+        </div>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#E1F5EE;" onclick="toggle('mon-bad')">
+          <span class="sname" style="color:#085041;">Badminton Game</span>
+          <span class="stype" style="color:#1D9E75;">Zone 2–3 · casual</span>
+          <span class="stoggle" style="color:#1D9E75;" id="mon-bad-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="mon-bad">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">~300–450 kcal burn<br>Keep it casual — legs already trained this morning<br>No intense rallies or jumping smashes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TUE -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#f5f4f0;"><span class="day-name" style="color:#5f5e5a;">Tue</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#EAF3DE;" onclick="toggle('tue-yoga')">
+          <span class="sname" style="color:#27500A;">Yoga (Optional)</span>
+          <span class="stype" style="color:#639922;">Office gym · mobility</span>
+          <span class="stoggle" style="color:#639922;" id="tue-yoga-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="tue-yoga">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">Hip flexor + thoracic focus<br>Helps prep shoulders for Upper A tonight<br>15–20 min is enough</div>
+        </div>
+      </div>
+      <div>
+        <button class="session-btn" style="background:#E6F1FB;" onclick="toggle('tue-ua')">
+          <span class="sname" style="color:#0C447C;">Upper A</span>
+          <span class="stype" style="color:#378ADD;">Strength · ~55 min · 6 exercises</span>
+          <span class="stoggle" style="color:#378ADD;" id="tue-ua-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="tue-ua">
+          <div class="ex-item"><span class="ex-num">1</span><div><div class="ex-name">Barbell Bench Press</div><div class="ex-detail">5–7 reps · 4 sets · 3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">2</span><div><div class="ex-name">Weighted Pull-ups</div><div class="ex-detail">5–7 reps · 4 sets · 3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">3</span><div><div class="ex-name">Overhead Press</div><div class="ex-detail">6–8 reps · 3 sets · 2–3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">4</span><div><div class="ex-name">Barbell Row</div><div class="ex-detail">6–8 reps · 3 sets · 2–3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">5</span><div><div class="ex-name">Dumbbell Curl</div><div class="ex-detail">8–12 reps · 2 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">6</span><div><div class="ex-name">Tricep Pushdown</div><div class="ex-detail">8–12 reps · 2 sets · 90 sec rest</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WED -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#f5f4f0;"><span class="day-name" style="color:#5f5e5a;">Wed</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#EAF3DE;" onclick="toggle('wed-yoga')">
+          <span class="sname" style="color:#27500A;">Yoga (Optional)</span>
+          <span class="stype" style="color:#639922;">Office gym · mobility</span>
+          <span class="stoggle" style="color:#639922;" id="wed-yoga-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="wed-yoga">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">Hip + ankle mobility focus<br>Especially useful before Lower A squats tonight<br>Goblet squat warmup set recommended</div>
+        </div>
+      </div>
+      <div>
+        <button class="session-btn" style="background:#E6F1FB;" onclick="toggle('wed-la')">
+          <span class="sname" style="color:#0C447C;">Lower A</span>
+          <span class="stype" style="color:#378ADD;">Strength · ~50 min · 6 exercises</span>
+          <span class="stoggle" style="color:#378ADD;" id="wed-la-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="wed-la">
+          <div class="ex-item"><span class="ex-num">1</span><div><div class="ex-name">Barbell Back Squat</div><div class="ex-detail">5–7 reps · 4 sets · 3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">2</span><div><div class="ex-name">Romanian Deadlift</div><div class="ex-detail">6–8 reps · 3 sets · 2–3 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">3</span><div><div class="ex-name">Leg Press</div><div class="ex-detail">8–10 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">4</span><div><div class="ex-name">Leg Curl</div><div class="ex-detail">10–12 reps · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">5</span><div><div class="ex-name">Standing Calf Raise</div><div class="ex-detail">10–15 reps · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">6</span><div><div class="ex-name">Plank</div><div class="ex-detail">30–60 sec · 3 sets · 60 sec rest</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THU -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#EEEDFE;"><span class="day-name" style="color:#3C3489;">Thu</span><span style="font-size:9px;color:#7F77DD;">Hypertrophy</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#EEEDFE;" onclick="toggle('thu-ub')">
+          <span class="sname" style="color:#3C3489;">Upper B</span>
+          <span class="stype" style="color:#7F77DD;">Hypertrophy · ~55 min · 8 exercises</span>
+          <span class="stoggle" style="color:#7F77DD;" id="thu-ub-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="thu-ub">
+          <div class="ex-item"><span class="ex-num">1</span><div><div class="ex-name">Incline Dumbbell Press</div><div class="ex-detail">8–12 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">2</span><div><div class="ex-name">Cable Row</div><div class="ex-detail">10–12 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">3</span><div><div class="ex-name">DB Lateral Raise</div><div class="ex-detail">12–15 reps · 3 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">4</span><div><div class="ex-name">Lat Pulldown</div><div class="ex-detail">10–12 reps · 3 sets · 2 min rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">5</span><div><div class="ex-name">Cable Fly</div><div class="ex-detail">12–15 reps · 2 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">6</span><div><div class="ex-name">Face Pull</div><div class="ex-detail">15–20 reps · 3 sets · 60 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">7</span><div><div class="ex-name">Hammer Curl</div><div class="ex-detail">10–12 reps · 2 sets · 90 sec rest</div></div></div>
+          <div class="ex-item"><span class="ex-num">8</span><div><div class="ex-name">Overhead Tricep Ext.</div><div class="ex-detail">10–12 reps · 2 sets · 90 sec rest</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRI -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#FAEEDA;"><span class="day-name" style="color:#633806;">Fri</span><span style="font-size:9px;color:#BA7517;font-weight:600;">HIGH FUEL</span></div>
+      <div>
+        <button class="session-btn" style="background:#FAEEDA;" onclick="toggle('fri-run')">
+          <span class="sname" style="color:#633806;">Morning Run</span>
+          <span class="stype" style="color:#BA7517;">Zone 2 · easy</span>
+          <span class="stoggle" style="color:#BA7517;" id="fri-run-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="fri-run">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">20–30 min steady pace<br>Conversational pace — can hold a sentence<br>Eat 60–80g carbs before HIIT evening session</div>
+        </div>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#FCEBEB;" onclick="toggle('fri-bad')">
+          <span class="sname" style="color:#791F1F;">Badminton Practice</span>
+          <span class="stype" style="color:#E24B4A;">HIIT · Zone 3–5</span>
+          <span class="stoggle" style="color:#E24B4A;" id="fri-bad-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="fri-bad">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">~500–700 kcal burn<br>Highest intensity session of the week<br>Eat 2,700 kcal today total<br>Post session: protein + fast carbs within 1 hr</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAT -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#FAEEDA;"><span class="day-name" style="color:#633806;">Sat</span></div>
+      <div>
+        <button class="session-btn" style="background:#FAEEDA;" onclick="toggle('sat-run')">
+          <span class="sname" style="color:#633806;">Morning Run</span>
+          <span class="stype" style="color:#BA7517;">Zone 2 · easy</span>
+          <span class="stoggle" style="color:#BA7517;" id="sat-run-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="sat-run">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">20–30 min steady pace<br>Active recovery from Fri HIIT<br>Very easy effort today</div>
+        </div>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#888780;">—</span></div>
+      <div>
+        <button class="session-btn" style="background:#E1F5EE;" onclick="toggle('sat-bad')">
+          <span class="sname" style="color:#085041;">Badminton Game</span>
+          <span class="stype" style="color:#1D9E75;">Zone 2–3 · casual</span>
+          <span class="stoggle" style="color:#1D9E75;" id="sat-bad-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="sat-bad">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.7;">~300–450 kcal burn<br>No gym session today — can play freely<br>Enjoy the game, social recovery day</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUN -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#f5f4f0;"><span class="day-name" style="color:#888780;">Sun</span></div>
+      <div class="rest-cell"><span style="font-size:11px;color:#888780;">Full rest — recovery day · lowest calorie intake (2,150 kcal)</span></div>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#378ADD;margin-right:3px;"></span>Strength</span>
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#7F77DD;margin-right:3px;"></span>Hypertrophy</span>
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#1D9E75;margin-right:3px;"></span>Badminton game</span>
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#E24B4A;margin-right:3px;"></span>Badminton HIIT</span>
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#EF9F27;margin-right:3px;"></span>Run</span>
+      <span style="font-size:10px;color:#5f5e5a;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#639922;margin-right:3px;"></span>Yoga (optional)</span>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="card">
+    <p class="sl">Daily nutrition targets</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;">
+      <div class="card-sm" style="text-align:center;"><div style="font-size:10px;color:#888780;margin-bottom:4px;">Rest (Sun)</div><div style="font-size:20px;font-weight:600;">2,150</div><div class="sub">kcal</div></div>
+      <div class="card-sm" style="text-align:center;border:1px solid #B5D4F4;"><div style="font-size:10px;color:#185FA5;margin-bottom:4px;">Strength day</div><div style="font-size:20px;font-weight:600;color:#185FA5;">2,550</div><div class="sub">kcal</div></div>
+      <div class="card-sm" style="text-align:center;border:1px solid #FAC775;"><div style="font-size:10px;color:#BA7517;margin-bottom:4px;">Run + game</div><div style="font-size:20px;font-weight:600;color:#BA7517;">2,450</div><div class="sub">kcal</div></div>
+      <div class="card-sm" style="text-align:center;border:1px solid #F09595;"><div style="font-size:10px;color:#A32D2D;margin-bottom:4px;">Fri (Run + HIIT)</div><div style="font-size:20px;font-weight:600;color:#A32D2D;">2,700</div><div class="sub">kcal — highest</div></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Strength day</div>
+        <div class="macro-row"><span class="macro-label">Protein</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:25%;background:#378ADD;"></div></div><span class="macro-val" style="color:#378ADD;">155g</span></div>
+        <div class="macro-row"><span class="macro-label">Carbs</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:72%;background:#EF9F27;"></div></div><span class="macro-val" style="color:#BA7517;">275g</span></div>
+        <div class="macro-row"><span class="macro-label">Fat</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:50%;background:#1D9E75;"></div></div><span class="macro-val" style="color:#1D9E75;">78g</span></div>
+        <div class="macro-row"><span class="macro-label">Added sugar</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:60%;background:#E24B4A;"></div></div><span class="macro-val" style="color:#E24B4A;">≤36g</span></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Fri (Run + HIIT)</div>
+        <div class="macro-row"><span class="macro-label">Protein</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:25%;background:#378ADD;"></div></div><span class="macro-val" style="color:#378ADD;">160g</span></div>
+        <div class="macro-row"><span class="macro-label">Carbs</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:85%;background:#EF9F27;"></div></div><span class="macro-val" style="color:#BA7517;">320g</span></div>
+        <div class="macro-row"><span class="macro-label">Fat</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:46%;background:#1D9E75;"></div></div><span class="macro-val" style="color:#1D9E75;">73g</span></div>
+        <div class="macro-row"><span class="macro-label">Added sugar</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:78%;background:#E24B4A;"></div></div><span class="macro-val" style="color:#E24B4A;">≤45g</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROTEIN SOURCES -->
+  <div class="card">
+    <p class="sl">Your protein sources — Thai meals</p>
+    <div style="font-size:11px;color:#5f5e5a;margin-bottom:10px;">Main sources: Chicken · Beef · Fish · Eggs · Greek yogurt · Whey protein</div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:10px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Supplement</div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ISO Fitwhey (1 scoop)</div><div style="font-size:10px;color:#0F6E56;">Post-workout · fast absorbing</div></div><span class="pbadge">30g</span></div>
+        <div style="font-size:10px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:0.06em;margin:10px 0 6px;">Thai meals</div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ข้าวมันไก่ (อกไก่ไม่หนัง)</div><div style="font-size:10px;color:#0F6E56;">Best daily staple ✓</div></div><span class="pbadge">27–42g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ก๋วยเตี๋ยวไก่มะระ (อกไก่)</div><div style="font-size:10px;color:#5f5e5a;">Wide range by portion</div></div><span class="pbadge">24–55g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">กระเพราหมูสับ + ไข่ดาว</div><div style="font-size:10px;color:#0F6E56;">Good protein + carb ✓</div></div><span class="pbadge">20–39g</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:#888780;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">More meals</div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">คอหมูย่าง</div><div style="font-size:10px;color:#BA7517;">Watch fat content</div></div><span class="pbadge">17–28g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">บะหมี่หมูต้มยำ</div><div style="font-size:10px;color:#5f5e5a;">Varies by shop</div></div><span class="pbadge">15–28g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ข้าวผัดกุ้ง</div><div style="font-size:10px;color:#5f5e5a;">Higher carb, lower protein</div></div><span class="pbadge">13–35g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">เกาเหลาหมูล้วน + ไข่ + ข้าว</div><div style="font-size:10px;color:#0F6E56;">Good recovery meal ✓</div></div><span class="pbadge">~24–30g</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUGAR + QUICK REF -->
+  <div class="grid2">
+    <div class="card">
+      <p class="sl">Sugar traps — Bangkok</p>
+      <div class="food-row"><span>Thai iced tea</span><span style="color:#E24B4A;font-weight:600;">30–40g ⚠️</span></div>
+      <div class="food-row"><span>1 can Coke</span><span style="color:#E24B4A;font-weight:600;">39g ⚠️</span></div>
+      <div class="food-row"><span>Sports drink</span><span style="color:#BA7517;font-weight:600;">20–25g</span></div>
+      <div class="food-row"><span>Flavored yogurt</span><span style="color:#BA7517;font-weight:600;">12–15g</span></div>
+      <div class="food-row"><span>BBQ sauce (1 tbsp)</span><span style="color:#1D9E75;font-weight:600;">6g</span></div>
+      <div class="food-row"><span>Unsweetened green tea</span><span style="color:#1D9E75;font-weight:600;">0g ✓</span></div>
+      <div style="margin-top:8px;background:#FCEBEB;border-radius:6px;padding:7px 10px;font-size:11px;color:#791F1F;font-weight:600;">Daily limit: ≤36g added sugar on normal days</div>
+    </div>
+    <div class="card">
+      <p class="sl">Thai food macros (C · P · F)</p>
+      <div class="food-row"><span>ข้าวมันไก่</span><span style="font-size:11px;color:#5f5e5a;">65c · 35p · 12f</span></div>
+      <div class="food-row"><span>Pad Thai</span><span style="font-size:11px;color:#5f5e5a;">75c · 25p · 18f</span></div>
+      <div class="food-row"><span>Khao Pad</span><span style="font-size:11px;color:#5f5e5a;">70c · 20p · 15f</span></div>
+      <div class="food-row"><span>Som Tum</span><span style="font-size:11px;color:#1D9E75;font-weight:600;">15c · 5p · 2f ✓</span></div>
+      <div class="food-row"><span>เกาเหลา + ไข่ + ข้าว</span><span style="font-size:11px;color:#1D9E75;font-weight:600;">50c · 27p · 8f ✓</span></div>
+      <div class="food-row"><span>Thai Milk Tea</span><span style="font-size:11px;color:#E24B4A;font-weight:600;">30g sugar ⚠️</span></div>
+    </div>
+  </div>
+
+  <!-- KEY RULES -->
+  <div class="card">
+    <p class="sl">Non-negotiable rules</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#185FA5;margin-bottom:3px;">Protein first</div><div style="font-size:11px;color:#5f5e5a;">148–160g every day regardless of calorie target</div></div>
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#BA7517;margin-bottom:3px;">Fri = highest fuel day</div><div style="font-size:11px;color:#5f5e5a;">Run AM + HIIT PM = biggest burn. Eat 2,700 kcal</div></div>
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#0F6E56;margin-bottom:3px;">Sleep 7–8 hrs</div><div style="font-size:11px;color:#5f5e5a;">6 active days — recovery is part of the program</div></div>
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#639922;margin-bottom:3px;">Yoga = bonus</div><div style="font-size:11px;color:#5f5e5a;">Tue/Wed yoga before evening lifts = better hip mobility</div></div>
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#D85A30;margin-bottom:3px;">Sweet drinks = no</div><div style="font-size:11px;color:#5f5e5a;">Switch Thai milk tea → green tea. Saves 30–40g sugar daily</div></div>
+      <div class="card-sm"><div style="font-size:11px;font-weight:600;color:#1D9E75;margin-bottom:3px;">Goal: recomp</div><div style="font-size:11px;color:#5f5e5a;">Target 13% BF at ~72 kg in ~4–5 months</div></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:10px;color:#888780;padding:8px 0;">Voramet · Hybrid Recomp Plan · Bangkok 🇹🇭</div>
+</div>
+
+<script>
+function toggle(id) {
+  var drawer = document.getElementById(id);
+  var arrow = document.getElementById(id + '-arrow');
+  var isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open');
+  if (arrow) arrow.textContent = isOpen ? '▼ tap to expand' : '▲ tap to collapse';
+}
+</script>
+</body>
+</html>

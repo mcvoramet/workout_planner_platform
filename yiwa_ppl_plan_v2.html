@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yiwa — Hybrid PPL Fat Loss Plan</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fdf8f6;color:#1a1a18;padding:24px 16px;font-size:14px;}
+  .page{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+  .card{background:#fff;border:0.5px solid rgba(0,0,0,0.1);border-radius:14px;padding:16px 20px;}
+  .card-sm{background:#fdf6f4;border-radius:8px;padding:10px 12px;}
+  .sl{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9e8a85;margin:0 0 10px;}
+  .big-num{font-size:28px;font-weight:500;line-height:1;}
+  .sub{font-size:12px;color:#7a6a66;}
+  .bar-wrap{background:#fdf6f4;border-radius:4px;height:8px;overflow:hidden;}
+  .bar-fill{height:8px;border-radius:4px;}
+  .macro-row{display:flex;align-items:center;gap:8px;margin:6px 0;}
+  .macro-label{font-size:12px;color:#7a6a66;width:62px;flex-shrink:0;}
+  .macro-bar-wrap{flex:1;background:#fdf6f4;border-radius:4px;height:6px;}
+  .macro-bar{height:6px;border-radius:4px;}
+  .macro-val{font-size:12px;font-weight:500;width:50px;text-align:right;flex-shrink:0;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+
+  .sched-head{display:grid;grid-template-columns:52px 1fr 1fr 1fr;gap:5px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#9e8a85;margin-bottom:6px;padding:0 2px;}
+  .sched-row{display:grid;grid-template-columns:52px 1fr 1fr 1fr;gap:5px;margin-bottom:5px;align-items:start;}
+  .day-cell{border-radius:8px;padding:7px 8px;display:flex;flex-direction:column;justify-content:center;}
+  .day-name{font-size:11px;font-weight:600;}
+  .session-btn{border-radius:8px;padding:7px 9px;cursor:pointer;border:none;width:100%;text-align:left;font-family:inherit;transition:opacity 0.15s;}
+  .session-btn:hover{opacity:0.82;}
+  .session-btn .sname{font-size:11px;font-weight:600;display:block;}
+  .session-btn .stype{font-size:10px;display:block;margin-top:1px;}
+  .session-btn .stoggle{font-size:9px;display:block;margin-top:4px;opacity:0.65;}
+  .empty-cell{border-radius:8px;padding:7px 9px;background:#fdf6f4;display:flex;align-items:center;justify-content:center;}
+  .rest-cell{grid-column:span 3;border-radius:8px;padding:7px 12px;background:#fdf6f4;display:flex;align-items:center;}
+
+  .ex-drawer{display:none;margin-top:4px;background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:8px;padding:8px 10px;}
+  .ex-drawer.open{display:block;}
+  .ex-item{display:flex;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,0,0,0.05);align-items:flex-start;}
+  .ex-item:last-child{border-bottom:none;}
+  .ex-num{font-size:11px;font-weight:700;width:18px;flex-shrink:0;padding-top:1px;}
+  .ex-name{font-size:12px;font-weight:600;color:#1a1a18;line-height:1.4;}
+  .ex-muscle{font-size:10px;color:#9e8a85;margin-top:1px;}
+  .ex-detail{font-size:10px;margin-top:2px;}
+  .superset-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:#FFF3CD;color:#856404;margin-left:4px;vertical-align:middle;}
+  .last-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;background:#E6F1FB;color:#0C447C;margin-left:4px;vertical-align:middle;}
+  .note-tag{font-size:10px;font-weight:600;padding:3px 8px;border-radius:5px;display:inline-block;margin-top:6px;}
+  .cardio-note{font-size:10px;font-weight:600;color:#D4537E;margin-top:6px;padding:4px 8px;background:#FBEAF0;border-radius:5px;display:inline-block;}
+  .prog-note{font-size:10px;font-weight:600;color:#0C447C;margin-top:4px;padding:4px 8px;background:#E6F1FB;border-radius:5px;display:inline-block;}
+
+  .food-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(0,0,0,0.05);font-size:12px;}
+  .food-row:last-child{border-bottom:none;}
+  .pbadge{font-size:11px;font-weight:600;padding:2px 7px;border-radius:6px;background:#FBEAF0;color:#993556;}
+
+  @media(max-width:600px){.grid2{grid-template-columns:1fr;}.sched-head,.sched-row{grid-template-columns:44px 1fr 1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="width:50px;height:50px;border-radius:50%;background:#FBEAF0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#993556;flex-shrink:0;">Y</div>
+      <div style="flex:1;">
+        <div style="font-size:17px;font-weight:600;color:#1a1a18;margin-bottom:3px;">Yiwa — Hybrid PPL Fat Loss Plan</div>
+        <div style="font-size:12px;color:#7a6a66;">Female · 156 cm · Bangkok 🇹🇭 · 3 days/week · On-Site Tue–Thu · IF (Lunch + Dinner)</div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <div style="text-align:center;"><div class="big-num" style="color:#D4537E;">50</div><div class="sub">kg now</div></div>
+        <div style="text-align:center;"><div class="big-num" style="color:#EF9F27;">28–30%</div><div class="sub">body fat</div></div>
+        <div style="text-align:center;"><div class="big-num" style="color:#1D9E75;">44–46 kg</div><div class="sub">goal weight</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BF JOURNEY -->
+  <div class="card">
+    <p class="sl">Body composition journey</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+      <div class="card-sm" style="border-left:3px solid #E24B4A;border-radius:0 8px 8px 0;"><div style="font-size:17px;font-weight:600;color:#E24B4A;">28–30%</div><div style="font-size:11px;color:#7a6a66;">Now</div><div style="font-size:10px;color:#9e8a85;margin-top:2px;">50 kg · ~14–15 kg fat</div></div>
+      <div class="card-sm" style="border-left:3px solid #EF9F27;border-radius:0 8px 8px 0;"><div style="font-size:17px;font-weight:600;color:#EF9F27;">25%</div><div style="font-size:11px;color:#7a6a66;">Phase 1 · 6–8 wks</div><div style="font-size:10px;color:#9e8a85;margin-top:2px;">~47–48 kg</div></div>
+      <div class="card-sm" style="border-left:3px solid #D4537E;border-radius:0 8px 8px 0;"><div style="font-size:17px;font-weight:600;color:#D4537E;">20–22%</div><div style="font-size:11px;color:#7a6a66;">Phase 2 · +8 wks</div><div style="font-size:10px;color:#9e8a85;margin-top:2px;">~45–46 kg</div></div>
+      <div class="card-sm" style="border-left:3px solid #1D9E75;border-radius:0 8px 8px 0;"><div style="font-size:17px;font-weight:600;color:#1D9E75;">17–20%</div><div style="font-size:11px;color:#7a6a66;">Goal · +6–8 wks</div><div style="font-size:10px;color:#9e8a85;margin-top:2px;">44–46 kg · fit &amp; toned</div></div>
+    </div>
+    <div class="bar-wrap"><div class="bar-fill" style="width:78%;background:linear-gradient(90deg,#1D9E75 0%,#D4537E 45%,#EF9F27 70%,#E24B4A 100%);"></div></div>
+    <div style="display:flex;justify-content:space-between;margin-top:4px;">
+      <span style="font-size:10px;color:#9e8a85;">17% fit range</span>
+      <span style="font-size:10px;color:#E24B4A;font-weight:600;">▲ you are here</span>
+      <span style="font-size:10px;color:#9e8a85;">32%+ high fat</span>
+    </div>
+  </div>
+
+  <!-- PPL OVERVIEW -->
+  <div class="card">
+    <p class="sl">Split overview — Push / Pull / Legs · 8–15 reps · 3 sets each</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      <div class="card-sm" style="border-top:3px solid #E8824A;">
+        <div style="font-size:12px;font-weight:600;color:#A03D10;margin-bottom:4px;">🔴 Push — Tuesday</div>
+        <div style="font-size:11px;color:#7a6a66;line-height:1.7;">Shoulders · Chest<br>All machine-based · beginner-friendly<br>Focus on controlled squeeze</div>
+      </div>
+      <div class="card-sm" style="border-top:3px solid #378ADD;">
+        <div style="font-size:12px;font-weight:600;color:#0C447C;margin-bottom:4px;">🔵 Pull — Wednesday</div>
+        <div style="font-size:11px;color:#7a6a66;line-height:1.7;">Back · Core (abs finish)<br>Row + pulldown combination<br>Superset abs at the end</div>
+      </div>
+      <div class="card-sm" style="border-top:3px solid #1D9E75;">
+        <div style="font-size:12px;font-weight:600;color:#085041;margin-bottom:4px;">🟢 Legs — Thursday</div>
+        <div style="font-size:11px;color:#7a6a66;line-height:1.7;">Quads · Hamstrings · Glutes<br>Machine-focused · safe for beginners<br>Biggest fat-burning session</div>
+      </div>
+    </div>
+    <div style="margin-top:8px;background:#E6F1FB;border-radius:8px;padding:8px 12px;font-size:11px;color:#0C447C;line-height:1.6;">
+      <span style="font-weight:600;">Progressive overload rule:</span> Every session — try to add 1 rep or increase weight vs last time. Write it down. This is the only way to keep getting results.
+    </div>
+  </div>
+
+  <!-- WEEKLY SCHEDULE -->
+  <div class="card">
+    <p class="sl">Weekly schedule — click session to see exercises</p>
+    <div class="sched-head"><div></div><div>Morning</div><div>Afternoon</div><div>Evening</div></div>
+
+    <!-- MON -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#fdf6f4;"><span class="day-name" style="color:#9e8a85;">Mon</span><span style="font-size:9px;color:#9e8a85;">Rest</span></div>
+      <div class="rest-cell"><span style="font-size:11px;color:#9e8a85;">Rest day — light walk or full rest. Start of week, conserve energy.</span></div>
+    </div>
+
+    <!-- TUE — PUSH -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#FDEEE7;">
+        <span class="day-name" style="color:#A03D10;">Tue</span>
+        <span style="font-size:9px;color:#E8824A;font-weight:700;">🔴 PUSH</span>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">On-site work</span></div>
+      <div>
+        <button class="session-btn" style="background:#FDEEE7;" onclick="toggle('tue-push')">
+          <span class="sname" style="color:#A03D10;">Cardio + Push Day</span>
+          <span class="stype" style="color:#E8824A;">Shoulders · Chest · 5 exercises · ~65 min total</span>
+          <span class="stoggle" style="color:#E8824A;" id="tue-push-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="tue-push">
+          <div style="font-size:10px;font-weight:600;color:#D4537E;margin-bottom:8px;padding:3px 8px;background:#FBEAF0;border-radius:4px;display:inline-block;">45 min Zone 2 cardio FIRST · then weights</div>
+          <div style="font-size:10px;font-weight:600;color:#888;margin-bottom:4px;margin-top:2px;">All exercises: 8–15 reps · 3 sets · 1–2 min rest</div>
+
+          <div class="ex-item">
+            <span class="ex-num" style="color:#E8824A;">1</span>
+            <div>
+              <div class="ex-name">Dumbbell Shoulder Press</div>
+              <div class="ex-muscle">Front &amp; Mid Delt primary · Triceps secondary</div>
+              <div class="ex-detail" style="color:#E8824A;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#E8824A;">2</span>
+            <div>
+              <div class="ex-name">Machine Shoulder Press</div>
+              <div class="ex-muscle">Front &amp; Mid Delt primary · Stabilised — good for beginners</div>
+              <div class="ex-detail" style="color:#E8824A;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#E8824A;">3</span>
+            <div>
+              <div class="ex-name">Machine Chest Fly</div>
+              <div class="ex-muscle">Chest stretch &amp; squeeze · Front Delt secondary</div>
+              <div class="ex-detail" style="color:#E8824A;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#E8824A;">4</span>
+            <div>
+              <div class="ex-name">Machine Chest Press</div>
+              <div class="ex-muscle">Chest primary · Triceps, Front Delt secondary</div>
+              <div class="ex-detail" style="color:#E8824A;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#E8824A;">5</span>
+            <div>
+              <div class="ex-name">Machine Side Raise</div>
+              <div class="ex-muscle">Mid Delt isolated · Supraspinatus secondary</div>
+              <div class="ex-detail" style="color:#E8824A;">8–15 reps · 3 sets · 1 min rest</div>
+            </div>
+          </div>
+          <span class="prog-note">Log weights each session — add reps or weight next time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WED — PULL -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#E6F1FB;">
+        <span class="day-name" style="color:#0C447C;">Wed</span>
+        <span style="font-size:9px;color:#378ADD;font-weight:700;">🔵 PULL</span>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">On-site work</span></div>
+      <div>
+        <button class="session-btn" style="background:#E6F1FB;" onclick="toggle('wed-pull')">
+          <span class="sname" style="color:#0C447C;">Cardio + Pull Day</span>
+          <span class="stype" style="color:#378ADD;">Back · Core superset · 5 exercises · ~65 min total</span>
+          <span class="stoggle" style="color:#378ADD;" id="wed-pull-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="wed-pull">
+          <div style="font-size:10px;font-weight:600;color:#D4537E;margin-bottom:8px;padding:3px 8px;background:#FBEAF0;border-radius:4px;display:inline-block;">45 min Zone 2 cardio FIRST · then weights</div>
+          <div style="font-size:10px;font-weight:600;color:#888;margin-bottom:4px;margin-top:2px;">All exercises: 8–15 reps · 3 sets · 1–2 min rest</div>
+
+          <div class="ex-item">
+            <span class="ex-num" style="color:#378ADD;">1</span>
+            <div>
+              <div class="ex-name">Machine High Row</div>
+              <div class="ex-muscle">Upper Lats, Rear Delt primary · Biceps secondary</div>
+              <div class="ex-detail" style="color:#378ADD;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#378ADD;">2</span>
+            <div>
+              <div class="ex-name">Cable Pulldown (Natural Grip)</div>
+              <div class="ex-muscle">Lats primary · Biceps, Rear Delt secondary</div>
+              <div class="ex-detail" style="color:#378ADD;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#378ADD;">3</span>
+            <div>
+              <div class="ex-name">T-Bar Row</div>
+              <div class="ex-muscle">Mid Back, Rhomboids primary · Rear Delt secondary</div>
+              <div class="ex-detail" style="color:#378ADD;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#378ADD;">4</span>
+            <div>
+              <div class="ex-name">Machine Underhand Row <span class="last-badge">LAST EXERCISE</span></div>
+              <div class="ex-muscle">Mid Back, Biceps primary · Squeeze at contraction</div>
+              <div class="ex-detail" style="color:#378ADD;">10–15 reps · 3 sets · 1 min rest · ท่าสุดท้าย</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#378ADD;">5</span>
+            <div>
+              <div class="ex-name">Leg Raises <span class="superset-badge">SUPERSET</span> Machine Abs Crunch</div>
+              <div class="ex-muscle">Lower abs (Leg Raise) · Rectus Abdominis (Crunch) — no rest between pair</div>
+              <div class="ex-detail" style="color:#856404;">8–15 reps each · Do Leg Raises → immediately Machine Abs Crunch · rest 1 min · repeat x3</div>
+            </div>
+          </div>
+          <span class="prog-note">Log weights each session — add reps or weight next time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- THU — LEGS -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#E1F5EE;">
+        <span class="day-name" style="color:#085041;">Thu</span>
+        <span style="font-size:9px;color:#1D9E75;font-weight:700;">🟢 LEGS</span>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">On-site work</span></div>
+      <div>
+        <button class="session-btn" style="background:#E1F5EE;" onclick="toggle('thu-legs')">
+          <span class="sname" style="color:#085041;">Cardio + Legs Day</span>
+          <span class="stype" style="color:#1D9E75;">Quads · Hamstrings · Glutes · 5 exercises · ~70 min total</span>
+          <span class="stoggle" style="color:#1D9E75;" id="thu-legs-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="thu-legs">
+          <div style="font-size:10px;font-weight:600;color:#D4537E;margin-bottom:8px;padding:3px 8px;background:#FBEAF0;border-radius:4px;display:inline-block;">45 min Zone 2 cardio FIRST · then weights</div>
+          <div style="font-size:10px;font-weight:600;color:#888;margin-bottom:4px;margin-top:2px;">All exercises: 8–15 reps · 3 sets · 1–2 min rest</div>
+
+          <div class="ex-item">
+            <span class="ex-num" style="color:#1D9E75;">1</span>
+            <div>
+              <div class="ex-name">Leg Extensions</div>
+              <div class="ex-muscle">Quads isolated — all 4 heads · warm-up movement</div>
+              <div class="ex-detail" style="color:#1D9E75;">8–15 reps · 3 sets · 1 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#1D9E75;">2</span>
+            <div>
+              <div class="ex-name">Leg Curl</div>
+              <div class="ex-muscle">Hamstrings isolated · Gastrocnemius secondary</div>
+              <div class="ex-detail" style="color:#1D9E75;">8–15 reps · 3 sets · 1 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#1D9E75;">3</span>
+            <div>
+              <div class="ex-name">Machine Adductor</div>
+              <div class="ex-muscle">Inner thigh isolated · Glute medius secondary</div>
+              <div class="ex-detail" style="color:#1D9E75;">8–15 reps · 3 sets · 1 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#1D9E75;">4</span>
+            <div>
+              <div class="ex-name">Leg Press</div>
+              <div class="ex-muscle">Quads, Glutes primary · Hamstrings secondary</div>
+              <div class="ex-detail" style="color:#1D9E75;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <div class="ex-item">
+            <span class="ex-num" style="color:#1D9E75;">5</span>
+            <div>
+              <div class="ex-name">Machine Squat</div>
+              <div class="ex-muscle">Quads, Glutes primary · Safer than barbell — good form focus</div>
+              <div class="ex-detail" style="color:#1D9E75;">8–15 reps · 3 sets · 1–2 min rest</div>
+            </div>
+          </div>
+          <span class="prog-note">Log weights each session — add reps or weight next time</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRI -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#fdf6f4;"><span class="day-name" style="color:#9e8a85;">Fri</span><span style="font-size:9px;color:#9e8a85;">Rest</span></div>
+      <div class="rest-cell"><span style="font-size:11px;color:#9e8a85;">Rest day — recovery from 3 consecutive training days. Body rebuilds here.</span></div>
+    </div>
+
+    <!-- SAT -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#FAEEDA;"><span class="day-name" style="color:#633806;">Sat</span><span style="font-size:9px;color:#BA7517;">Optional</span></div>
+      <div>
+        <button class="session-btn" style="background:#FAEEDA;" onclick="toggle('sat-run')">
+          <span class="sname" style="color:#633806;">Outdoor Run (Optional)</span>
+          <span class="stype" style="color:#BA7517;">Zone 2 · easy pace · 20–30 min</span>
+          <span class="stoggle" style="color:#BA7517;" id="sat-run-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="sat-run">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.8;">Easy conversational pace — can hold a sentence<br>Park or neighborhood route works great<br>Not mandatory — rest is equally valid today<br>~150–250 kcal burn</div>
+        </div>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+    </div>
+
+    <!-- SUN -->
+    <div class="sched-row">
+      <div class="day-cell" style="background:#FAEEDA;"><span class="day-name" style="color:#633806;">Sun</span><span style="font-size:9px;color:#BA7517;">Optional</span></div>
+      <div>
+        <button class="session-btn" style="background:#FAEEDA;" onclick="toggle('sun-run')">
+          <span class="sname" style="color:#633806;">Outdoor Run (Optional)</span>
+          <span class="stype" style="color:#BA7517;">Zone 2 · easy pace · 20–30 min</span>
+          <span class="stoggle" style="color:#BA7517;" id="sun-run-arrow">▼ tap to expand</span>
+        </button>
+        <div class="ex-drawer" id="sun-run">
+          <div style="font-size:11px;color:#5f5e5a;line-height:1.8;">Full rest or easy run<br>Lowest calorie day (1,300 kcal)<br>Good day to prep meals for the week ahead</div>
+        </div>
+      </div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+      <div class="empty-cell"><span style="font-size:11px;color:#9e8a85;">—</span></div>
+    </div>
+
+    <!-- Legend -->
+    <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;">
+      <span style="font-size:10px;color:#7a6a66;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#E8824A;margin-right:3px;"></span>Push</span>
+      <span style="font-size:10px;color:#7a6a66;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#378ADD;margin-right:3px;"></span>Pull</span>
+      <span style="font-size:10px;color:#7a6a66;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#1D9E75;margin-right:3px;"></span>Legs</span>
+      <span style="font-size:10px;color:#7a6a66;"><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#EF9F27;margin-right:3px;"></span>Optional run</span>
+    </div>
+  </div>
+
+  <!-- IF NOTE -->
+  <div class="card" style="background:#FFF8F5;border-color:#F4C0D1;">
+    <p class="sl" style="color:#993556;">Intermittent fasting — 16:8 protocol</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Eating window</div><div style="font-size:12px;color:#5f5e5a;">~12:00 PM – 8:00 PM<br>Lunch + Dinner only</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Fasting window</div><div style="font-size:12px;color:#5f5e5a;">~8:00 PM – 12:00 PM<br>Water, black coffee, tea OK</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Training timing</div><div style="font-size:12px;color:#5f5e5a;">Evening fits IF well<br>Eat lunch 1–2 hrs before gym</div></div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="card">
+    <p class="sl">Daily nutrition targets</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">
+      <div class="card-sm" style="text-align:center;"><div style="font-size:10px;color:#9e8a85;margin-bottom:4px;">Rest day (Mon, Fri–Sun)</div><div style="font-size:20px;font-weight:600;">1,300</div><div class="sub">kcal</div></div>
+      <div class="card-sm" style="text-align:center;border:1px solid #F4C0D1;"><div style="font-size:10px;color:#993556;margin-bottom:4px;">Training day (Tue–Thu)</div><div style="font-size:20px;font-weight:600;color:#D4537E;">1,500</div><div class="sub">kcal</div></div>
+      <div class="card-sm" style="text-align:center;border:1px solid #B5D4F4;"><div style="font-size:10px;color:#185FA5;margin-bottom:4px;">Weekly deficit target</div><div style="font-size:20px;font-weight:600;color:#185FA5;">~2,500</div><div class="sub">kcal/wk ≈ 0.3 kg/wk</div></div>
+    </div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Training day macros</div>
+        <div class="macro-row"><span class="macro-label">Protein</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:30%;background:#D4537E;"></div></div><span class="macro-val" style="color:#D4537E;">90–100g</span></div>
+        <div class="macro-row"><span class="macro-label">Carbs</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:55%;background:#EF9F27;"></div></div><span class="macro-val" style="color:#BA7517;">150–170g</span></div>
+        <div class="macro-row"><span class="macro-label">Fat</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:40%;background:#1D9E75;"></div></div><span class="macro-val" style="color:#1D9E75;">45–55g</span></div>
+        <div class="macro-row"><span class="macro-label">Added sugar</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:45%;background:#E24B4A;"></div></div><span class="macro-val" style="color:#E24B4A;">≤25g</span></div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;margin-bottom:8px;">Rest day macros</div>
+        <div class="macro-row"><span class="macro-label">Protein</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:28%;background:#D4537E;"></div></div><span class="macro-val" style="color:#D4537E;">85–95g</span></div>
+        <div class="macro-row"><span class="macro-label">Carbs</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:42%;background:#EF9F27;"></div></div><span class="macro-val" style="color:#BA7517;">110–130g</span></div>
+        <div class="macro-row"><span class="macro-label">Fat</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:38%;background:#1D9E75;"></div></div><span class="macro-val" style="color:#1D9E75;">40–50g</span></div>
+        <div class="macro-row"><span class="macro-label">Added sugar</span><div class="macro-bar-wrap"><div class="macro-bar" style="width:35%;background:#E24B4A;"></div></div><span class="macro-val" style="color:#E24B4A;">≤20g</span></div>
+      </div>
+    </div>
+    <div style="margin-top:10px;background:#fdf6f4;border-radius:8px;padding:8px 12px;font-size:11px;color:#7a6a66;line-height:1.7;">
+      <span style="font-weight:600;color:#993556;">IF meal split: </span>Lunch ~700–800 kcal (bigger — fuels evening training) · Dinner ~600–700 kcal (lighter — post-workout recovery)
+    </div>
+  </div>
+
+  <!-- PROTEIN SOURCES -->
+  <div class="card">
+    <p class="sl">Protein sources — Thai meals (smaller portions)</p>
+    <div style="font-size:11px;color:#7a6a66;margin-bottom:10px;">Main sources: Chicken · Fish · Eggs · Greek yogurt · Whey (if needed)</div>
+    <div class="grid2">
+      <div>
+        <div style="font-size:10px;font-weight:600;color:#9e8a85;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Best choices</div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ข้าวมันไก่ (อกไก่ไม่หนัง)</div><div style="font-size:10px;color:#0F6E56;">Smaller portion · no skin ✓</div></div><span class="pbadge">20–30g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">กระเพราไก่สับ + ไข่ดาว</div><div style="font-size:10px;color:#0F6E56;">Good fat loss meal ✓</div></div><span class="pbadge">18–28g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">เกาเหลาหมูล้วน + ไข่ + ข้าว</div><div style="font-size:10px;color:#0F6E56;">Low fat · good recovery ✓</div></div><span class="pbadge">~18–25g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">Greek yogurt</div><div style="font-size:10px;color:#0F6E56;">Great in eating window ✓</div></div><span class="pbadge">10–15g</span></div>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;color:#9e8a85;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Watch carefully</div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">คอหมูย่าง</div><div style="font-size:10px;color:#BA7517;">High fat cut — limit frequency</div></div><span class="pbadge">13–20g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">บะหมี่หมูต้มยำ</div><div style="font-size:10px;color:#7a6a66;">Lower protein per portion</div></div><span class="pbadge">12–20g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ข้าวผัดกุ้ง</div><div style="font-size:10px;color:#BA7517;">High oil — ask less oil</div></div><span class="pbadge">10–22g</span></div>
+        <div class="food-row"><div><div style="font-size:12px;font-weight:600;">ก๋วยเตี๋ยวไก่มะระ</div><div style="font-size:10px;color:#7a6a66;">Control portion size</div></div><span class="pbadge">18–35g</span></div>
+      </div>
+    </div>
+    <div style="margin-top:10px;background:#FBEAF0;border-radius:8px;padding:8px 12px;font-size:11px;color:#993556;line-height:1.7;">
+      <span style="font-weight:600;">Protein target: 90–100g/day across 2 meals</span> · ~45–50g per meal · Add eggs or yogurt if falling short
+    </div>
+  </div>
+
+  <!-- SUGAR + QUICK REF -->
+  <div class="grid2">
+    <div class="card">
+      <p class="sl">Sugar traps — Bangkok</p>
+      <div class="food-row"><span>Bubble tea (full sugar)</span><span style="color:#E24B4A;font-weight:600;">50–70g ⚠️</span></div>
+      <div class="food-row"><span>Thai iced tea</span><span style="color:#E24B4A;font-weight:600;">30–40g ⚠️</span></div>
+      <div class="food-row"><span>1 can Coke</span><span style="color:#E24B4A;font-weight:600;">39g ⚠️</span></div>
+      <div class="food-row"><span>Sports drink</span><span style="color:#BA7517;font-weight:600;">20–25g (training only)</span></div>
+      <div class="food-row"><span>Flavored yogurt</span><span style="color:#BA7517;font-weight:600;">12–15g</span></div>
+      <div class="food-row"><span>Unsweetened green tea</span><span style="color:#1D9E75;font-weight:600;">0g ✓ ideal</span></div>
+      <div style="margin-top:8px;background:#FBEAF0;border-radius:6px;padding:7px 10px;font-size:11px;color:#993556;font-weight:600;">≤25g training days · ≤20g rest days</div>
+    </div>
+    <div class="card">
+      <p class="sl">Thai food macros (C · P · F)</p>
+      <div class="food-row"><span>ข้าวมันไก่ (small)</span><span style="font-size:11px;color:#7a6a66;">45c · 25p · 8f</span></div>
+      <div class="food-row"><span>กระเพราไก่ + ข้าว</span><span style="font-size:11px;color:#1D9E75;font-weight:600;">50c · 28p · 8f ✓</span></div>
+      <div class="food-row"><span>เกาเหลา + ไข่ + ข้าว</span><span style="font-size:11px;color:#1D9E75;font-weight:600;">40c · 22p · 6f ✓</span></div>
+      <div class="food-row"><span>Som Tum</span><span style="font-size:11px;color:#1D9E75;font-weight:600;">15c · 5p · 2f ✓ low cal</span></div>
+      <div class="food-row"><span>Pad Thai</span><span style="font-size:11px;color:#BA7517;font-weight:600;">75c · 18p · 15f — high cal</span></div>
+      <div class="food-row"><span>Thai Milk Tea</span><span style="font-size:11px;color:#E24B4A;font-weight:600;">30g sugar ⚠️</span></div>
+    </div>
+  </div>
+
+  <!-- KEY RULES -->
+  <div class="card">
+    <p class="sl">Non-negotiable rules</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Log every session</div><div style="font-size:11px;color:#7a6a66;">Write down weights. Next session: add 1 rep or increase weight. This is progress.</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Cardio before lifting</div><div style="font-size:11px;color:#7a6a66;">Zone 2 cardio first — primes fat burning before resistance training every session</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Protein every meal</div><div style="font-size:11px;color:#7a6a66;">45–50g per meal across lunch + dinner. Preserves muscle while losing fat.</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">Sleep 7–8 hrs</div><div style="font-size:11px;color:#7a6a66;">Poor sleep raises cortisol — holds fat and kills recovery. Non-negotiable.</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#993556;margin-bottom:3px;">No bubble tea / Thai tea</div><div style="font-size:11px;color:#7a6a66;">One drink uses the full day's sugar budget. Green tea or water only.</div></div>
+      <div class="card-sm" style="background:#FBEAF0;"><div style="font-size:11px;font-weight:600;color:#1D9E75;margin-bottom:3px;">Goal: fat loss</div><div style="font-size:11px;color:#7a6a66;">Target 17–20% BF at 44–46 kg in ~4–5 months. Consistent &gt; perfect.</div></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;font-size:10px;color:#9e8a85;padding:8px 0;">Yiwa · Hybrid PPL Fat Loss Plan · Bangkok 🇹🇭 · With ♡ from Voramet</div>
+</div>
+
+<script>
+function toggle(id) {
+  var drawer = document.getElementById(id);
+  var arrow = document.getElementById(id + '-arrow');
+  var isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open');
+  if (arrow) arrow.textContent = isOpen ? '▼ tap to expand' : '▲ tap to collapse';
+}
+</script>
+</body>
+</html>
