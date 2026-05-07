@@ -1,7 +1,7 @@
 import Drawer from '../components/Drawer.jsx';
 
 const searchUrl = (name) =>
-  `https://www.google.com/search?q=${encodeURIComponent(name + ' exercise form')}`;
+  `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(name + ' exercise form')}`;
 
 const ExItem = ({ n, name, muscle, detail, color, badge }) => (
   <div className="ex-item">
