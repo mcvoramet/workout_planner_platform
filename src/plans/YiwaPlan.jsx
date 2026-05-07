@@ -1,10 +1,20 @@
 import Drawer from '../components/Drawer.jsx';
 
+const searchUrl = (name) =>
+  `https://www.google.com/search?q=${encodeURIComponent(name + ' exercise form')}`;
+
 const ExItem = ({ n, name, muscle, detail, color, badge }) => (
   <div className="ex-item">
     <span className="ex-num" style={{ color }}>{n}</span>
     <div>
-      <div className="ex-name">{name}{badge}</div>
+      <a
+        className="ex-name"
+        href={searchUrl(name)}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={`Google search: ${name}`}
+      >{name}</a>
+      {badge}
       <div className="ex-muscle">{muscle}</div>
       <div className="ex-detail" style={{ color }}>{detail}</div>
     </div>
@@ -124,7 +134,21 @@ export default function YiwaPlan() {
               <div className="ex-item">
                 <span className="ex-num" style={{ color: '#378ADD' }}>5</span>
                 <div>
-                  <div className="ex-name">Leg Raises <span className="superset-badge">SUPERSET</span> Machine Abs Crunch</div>
+                  <a
+                    className="ex-name"
+                    href={searchUrl('Leg Raises')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Google search: Leg Raises"
+                  >Leg Raises</a>
+                  <span className="superset-badge">SUPERSET</span>{' '}
+                  <a
+                    className="ex-name"
+                    href={searchUrl('Machine Abs Crunch')}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Google search: Machine Abs Crunch"
+                  >Machine Abs Crunch</a>
                   <div className="ex-muscle">Lower abs (Leg Raise) · Rectus Abdominis (Crunch) — no rest between pair</div>
                   <div className="ex-detail" style={{ color: '#856404' }}>8–15 reps each · Do Leg Raises → immediately Machine Abs Crunch · rest 1 min · repeat x3</div>
                 </div>

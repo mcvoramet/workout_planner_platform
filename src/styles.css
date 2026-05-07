@@ -76,6 +76,11 @@ body.theme-yiwa{background:#fdf8f6;}
 .theme-mc .ex-name{font-size:11px;font-weight:600;color:#1a1a18;}
 .theme-yiwa .ex-name{font-size:12px;font-weight:600;color:#1a1a18;line-height:1.4;}
 
+/* Exercise name as a Google search link */
+a.ex-name{text-decoration:none;display:inline-block;}
+a.ex-name:hover{text-decoration:underline;opacity:0.7;cursor:pointer;}
+a.ex-name::after{content:" ↗";font-size:9px;opacity:0.45;margin-left:2px;font-weight:400;}
+
 .theme-mc .ex-detail{font-size:10px;color:#888780;}
 .theme-yiwa .ex-detail{font-size:10px;margin-top:2px;}
 .ex-muscle{font-size:10px;color:#9e8a85;margin-top:1px;}

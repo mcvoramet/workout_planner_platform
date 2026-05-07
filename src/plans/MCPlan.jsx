@@ -1,10 +1,19 @@
 import Drawer from '../components/Drawer.jsx';
 
+const searchUrl = (name) =>
+  `https://www.google.com/search?q=${encodeURIComponent(name + ' exercise form')}`;
+
 const ExItem = ({ n, name, detail }) => (
   <div className="ex-item">
     <span className="ex-num">{n}</span>
     <div>
-      <div className="ex-name">{name}</div>
+      <a
+        className="ex-name"
+        href={searchUrl(name)}
+        target="_blank"
+        rel="noopener noreferrer"
+        title={`Google search: ${name}`}
+      >{name}</a>
       <div className="ex-detail">{detail}</div>
     </div>
   </div>
@@ -84,15 +93,7 @@ export default function MCPlan() {
         <div className="sched-row">
           <div className="day-cell" style={{ background: '#f5f4f0' }}><span className="day-name" style={{ color: '#5f5e5a' }}>Tue</span></div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
-          <div>
-            <Drawer btnStyle={{ background: '#EAF3DE' }} title="Yoga (Optional)" titleColor="#27500A" subtitle="Office gym · mobility" subtitleColor="#639922">
-              <div style={{ fontSize: 11, color: '#5f5e5a', lineHeight: 1.7 }}>
-                Hip flexor + thoracic focus<br />
-                Helps prep shoulders for Upper A tonight<br />
-                15–20 min is enough
-              </div>
-            </Drawer>
-          </div>
+          <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
           <div>
             <Drawer btnStyle={{ background: '#E6F1FB' }} title="Upper A" titleColor="#0C447C" subtitle="Strength · ~55 min · 6 exercises" subtitleColor="#378ADD">
               <ExItem n={1} name="Barbell Bench Press" detail="5–7 reps · 4 sets · 3 min rest" />
@@ -109,15 +110,7 @@ export default function MCPlan() {
         <div className="sched-row">
           <div className="day-cell" style={{ background: '#f5f4f0' }}><span className="day-name" style={{ color: '#5f5e5a' }}>Wed</span></div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
-          <div>
-            <Drawer btnStyle={{ background: '#EAF3DE' }} title="Yoga (Optional)" titleColor="#27500A" subtitle="Office gym · mobility" subtitleColor="#639922">
-              <div style={{ fontSize: 11, color: '#5f5e5a', lineHeight: 1.7 }}>
-                Hip + ankle mobility focus<br />
-                Especially useful before Lower A squats tonight<br />
-                Goblet squat warmup set recommended
-              </div>
-            </Drawer>
-          </div>
+          <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
           <div>
             <Drawer btnStyle={{ background: '#E6F1FB' }} title="Lower A" titleColor="#0C447C" subtitle="Strength · ~50 min · 6 exercises" subtitleColor="#378ADD">
               <ExItem n={1} name="Barbell Back Squat" detail="5–7 reps · 4 sets · 3 min rest" />
@@ -136,7 +129,15 @@ export default function MCPlan() {
             <span className="day-name" style={{ color: '#3C3489' }}>Thu</span>
             <span style={{ fontSize: 9, color: '#7F77DD' }}>Hypertrophy</span>
           </div>
-          <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
+          <div>
+            <Drawer btnStyle={{ background: '#FAEEDA' }} title="Morning Run" titleColor="#633806" subtitle="Zone 2 · easy" subtitleColor="#BA7517">
+              <div style={{ fontSize: 11, color: '#5f5e5a', lineHeight: 1.7 }}>
+                20–30 min steady pace<br />
+                Conversational pace — can hold a sentence<br />
+                Light pre-Upper B fat burn — fuel up before evening lift
+              </div>
+            </Drawer>
+          </div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
           <div>
             <Drawer btnStyle={{ background: '#EEEDFE' }} title="Upper B" titleColor="#3C3489" subtitle="Hypertrophy · ~55 min · 8 exercises" subtitleColor="#7F77DD">
@@ -158,15 +159,7 @@ export default function MCPlan() {
             <span className="day-name" style={{ color: '#633806' }}>Fri</span>
             <span style={{ fontSize: 9, color: '#BA7517', fontWeight: 600 }}>HIGH FUEL</span>
           </div>
-          <div>
-            <Drawer btnStyle={{ background: '#FAEEDA' }} title="Morning Run" titleColor="#633806" subtitle="Zone 2 · easy" subtitleColor="#BA7517">
-              <div style={{ fontSize: 11, color: '#5f5e5a', lineHeight: 1.7 }}>
-                20–30 min steady pace<br />
-                Conversational pace — can hold a sentence<br />
-                Eat 60–80g carbs before HIIT evening session
-              </div>
-            </Drawer>
-          </div>
+          <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#888780' }}>—</span></div>
           <div>
             <Drawer btnStyle={{ background: '#FCEBEB' }} title="Badminton Practice" titleColor="#791F1F" subtitle="HIIT · Zone 3–5" subtitleColor="#E24B4A">
@@ -217,7 +210,6 @@ export default function MCPlan() {
           <span style={{ fontSize: 10, color: '#5f5e5a' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#1D9E75', marginRight: 3 }} />Badminton game</span>
           <span style={{ fontSize: 10, color: '#5f5e5a' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#E24B4A', marginRight: 3 }} />Badminton HIIT</span>
           <span style={{ fontSize: 10, color: '#5f5e5a' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#EF9F27', marginRight: 3 }} />Run</span>
-          <span style={{ fontSize: 10, color: '#5f5e5a' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#639922', marginRight: 3 }} />Yoga (optional)</span>
         </div>
       </div>
 
@@ -301,7 +293,6 @@ export default function MCPlan() {
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#185FA5', marginBottom: 3 }}>Protein first</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>148–160g every day regardless of calorie target</div></div>
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#BA7517', marginBottom: 3 }}>Fri = highest fuel day</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>Run AM + HIIT PM = biggest burn. Eat 2,700 kcal</div></div>
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#0F6E56', marginBottom: 3 }}>Sleep 7–8 hrs</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>6 active days — recovery is part of the program</div></div>
-          <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#639922', marginBottom: 3 }}>Yoga = bonus</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>Tue/Wed yoga before evening lifts = better hip mobility</div></div>
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#D85A30', marginBottom: 3 }}>Sweet drinks = no</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>Switch Thai milk tea → green tea. Saves 30–40g sugar daily</div></div>
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#1D9E75', marginBottom: 3 }}>Goal: recomp</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>Target 13% BF at ~72 kg in ~4–5 months</div></div>
         </div>
