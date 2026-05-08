@@ -1,4 +1,5 @@
 import Drawer from '../components/Drawer.jsx';
+import TrainingTypes from '../components/TrainingTypes.jsx';
 
 const searchUrl = (name) =>
   `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(name + ' exercise form')}`;
@@ -336,6 +337,8 @@ export default function YiwaPlan() {
           <div className="card-sm" style={{ background: '#FBEAF0' }}><div style={{ fontSize: 11, fontWeight: 600, color: '#1D9E75', marginBottom: 3 }}>Goal: fat loss</div><div style={{ fontSize: 11, color: '#7a6a66' }}>Target 17–20% BF at 44–46 kg in ~4–5 months. Consistent &gt; perfect.</div></div>
         </div>
       </div>
+
+      <TrainingTypes />
 
       <div style={{ textAlign: 'center', fontSize: 10, color: '#9e8a85', padding: '8px 0' }}>Yiwa · Hybrid PPL Fat Loss Plan · Bangkok 🇹🇭 · With ♡ from Voramet</div>
     </>

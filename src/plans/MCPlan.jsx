@@ -1,4 +1,5 @@
 import Drawer from '../components/Drawer.jsx';
+import TrainingTypes from '../components/TrainingTypes.jsx';
 
 const searchUrl = (name) =>
   `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(name + ' exercise form')}`;
@@ -297,6 +298,8 @@ export default function MCPlan() {
           <div className="card-sm"><div style={{ fontSize: 11, fontWeight: 600, color: '#1D9E75', marginBottom: 3 }}>Goal: recomp</div><div style={{ fontSize: 11, color: '#5f5e5a' }}>Target 13% BF at ~72 kg in ~4–5 months</div></div>
         </div>
       </div>
+
+      <TrainingTypes />
 
       <div style={{ textAlign: 'center', fontSize: 10, color: '#888780', padding: '8px 0' }}>Voramet · Hybrid Recomp Plan · Bangkok 🇹🇭</div>
     </>
