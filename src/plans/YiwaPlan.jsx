@@ -103,7 +103,7 @@ export default function YiwaPlan() {
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#9e8a85' }}>—</span></div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#9e8a85' }}>On-site work</span></div>
           <div>
-            <Drawer btnStyle={{ background: '#FDEEE7' }} title="Cardio + Push Day" titleColor="#A03D10" subtitle="Shoulders · Chest · 5 exercises · ~65 min total" subtitleColor="#E8824A">
+            <Drawer btnStyle={{ background: '#FDEEE7' }} title="Cardio + Push Day" titleColor="#A03D10" subtitle="Shoulders · Chest · Triceps · 6 exercises · ~70 min total" subtitleColor="#E8824A">
               <div style={{ fontSize: 10, fontWeight: 600, color: '#D4537E', marginBottom: 8, padding: '3px 8px', background: '#FBEAF0', borderRadius: 4, display: 'inline-block' }}>45 min Zone 2 cardio FIRST · then weights</div>
               <div style={{ fontSize: 10, fontWeight: 600, color: '#888', marginBottom: 4, marginTop: 2 }}>All exercises: 8–15 reps · 3 sets · 1–2 min rest</div>
               <ExItem n={1} color="#E8824A" name="Dumbbell Shoulder Press" muscle="Front & Mid Delt primary · Triceps secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
@@ -111,6 +111,7 @@ export default function YiwaPlan() {
               <ExItem n={3} color="#E8824A" name="Machine Chest Fly" muscle="Chest stretch & squeeze · Front Delt secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
               <ExItem n={4} color="#E8824A" name="Machine Chest Press" muscle="Chest primary · Triceps, Front Delt secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
               <ExItem n={5} color="#E8824A" name="Machine Side Raise" muscle="Mid Delt isolated · Supraspinatus secondary" detail="8–15 reps · 3 sets · 1 min rest" />
+              <ExItem n={6} color="#E8824A" name="Dips" badge={<span className="last-badge">LAST EXERCISE</span>} muscle="Triceps primary · Chest, Front Delt secondary · Assisted machine OK" detail="8–15 reps · 3 sets · 1–2 min rest · ท่าสุดท้าย" />
               <span className="prog-note">Log weights each session — add reps or weight next time</span>
             </Drawer>
           </div>
@@ -125,15 +126,16 @@ export default function YiwaPlan() {
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#9e8a85' }}>—</span></div>
           <div className="empty-cell"><span style={{ fontSize: 11, color: '#9e8a85' }}>On-site work</span></div>
           <div>
-            <Drawer btnStyle={{ background: '#E6F1FB' }} title="Cardio + Pull Day" titleColor="#0C447C" subtitle="Back · Core superset · 5 exercises · ~65 min total" subtitleColor="#378ADD">
+            <Drawer btnStyle={{ background: '#E6F1FB' }} title="Cardio + Pull Day" titleColor="#0C447C" subtitle="Back · Biceps · Core superset · 6 exercises · ~70 min total" subtitleColor="#378ADD">
               <div style={{ fontSize: 10, fontWeight: 600, color: '#D4537E', marginBottom: 8, padding: '3px 8px', background: '#FBEAF0', borderRadius: 4, display: 'inline-block' }}>45 min Zone 2 cardio FIRST · then weights</div>
               <div style={{ fontSize: 10, fontWeight: 600, color: '#888', marginBottom: 4, marginTop: 2 }}>All exercises: 8–15 reps · 3 sets · 1–2 min rest</div>
               <ExItem n={1} color="#378ADD" name="Machine High Row" muscle="Upper Lats, Rear Delt primary · Biceps secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
               <ExItem n={2} color="#378ADD" name="Cable Pulldown (Natural Grip)" muscle="Lats primary · Biceps, Rear Delt secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
               <ExItem n={3} color="#378ADD" name="T-Bar Row" muscle="Mid Back, Rhomboids primary · Rear Delt secondary" detail="8–15 reps · 3 sets · 1–2 min rest" />
-              <ExItem n={4} color="#378ADD" name="Machine Underhand Row" badge={<span className="last-badge">LAST EXERCISE</span>} muscle="Mid Back, Biceps primary · Squeeze at contraction" detail="10–15 reps · 3 sets · 1 min rest · ท่าสุดท้าย" />
+              <ExItem n={4} color="#378ADD" name="Hammer Curl" muscle="Brachialis, Biceps primary · Forearm (Brachioradialis) secondary" detail="8–15 reps · 3 sets · 1 min rest" />
+              <ExItem n={5} color="#378ADD" name="Machine Underhand Row" badge={<span className="last-badge">LAST EXERCISE</span>} muscle="Mid Back, Biceps primary · Squeeze at contraction" detail="10–15 reps · 3 sets · 1 min rest · ท่าสุดท้าย" />
               <div className="ex-item">
-                <span className="ex-num" style={{ color: '#378ADD' }}>5</span>
+                <span className="ex-num" style={{ color: '#378ADD' }}>6</span>
                 <div>
                   <a
                     className="ex-name"
