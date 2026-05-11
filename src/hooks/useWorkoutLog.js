@@ -43,15 +43,22 @@ export function useWorkoutLog(sheetName) {
       if (!json.table) throw new Error('No table data in response');
 
       const cols = json.table.cols.map((c) => (c.label || '').trim().toLowerCase());
-      const idx = (name) => cols.indexOf(name);
-      const dateI = idx('date');
-      const dayI = idx('day');
-      const exI = idx('exercise');
-      const setsI = idx('sets');
-      const repsI = idx('reps');
-      const weightI = idx('weight');
-      const rpeI = idx('rpe');
-      const notesI = idx('notes');
+      // Match exact first, then prefix — so "Weight (kg)" still resolves
+      // to the weight column, "Reps (per set)" to reps, etc.
+      const findCol = (name) => {
+        const t = name.toLowerCase();
+        const exact = cols.indexOf(t);
+        if (exact !== -1) return exact;
+        return cols.findIndex((c) => c === t || c.startsWith(t + ' ') || c.startsWith(t + '('));
+      };
+      const dateI = findCol('date');
+      const dayI = findCol('day');
+      const exI = findCol('exercise');
+      const setsI = findCol('sets');
+      const repsI = findCol('reps');
+      const weightI = findCol('weight');
+      const rpeI = findCol('rpe');
+      const notesI = findCol('notes');
 
       const rows = (json.table.rows || [])
         .map((r) => {
