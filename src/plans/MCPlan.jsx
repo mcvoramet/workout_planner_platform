@@ -1,5 +1,6 @@
 import Drawer from '../components/Drawer.jsx';
 import TrainingTypes from '../components/TrainingTypes.jsx';
+import WorkoutLog from '../components/WorkoutLog.jsx';
 
 const searchUrl = (name) =>
   `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(name + ' exercise form')}`;
@@ -213,6 +214,9 @@ export default function MCPlan() {
           <span style={{ fontSize: 10, color: '#5f5e5a' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#EF9F27', marginRight: 3 }} />Run</span>
         </div>
       </div>
+
+      {/* WORKOUT LOG (Google Sheet) */}
+      <WorkoutLog sheetName="Mc's Log" accentColor="#185FA5" label="MC workout log" />
 
       {/* NUTRITION */}
       <div className="card">

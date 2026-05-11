@@ -1,5 +1,6 @@
 import Drawer from '../components/Drawer.jsx';
 import TrainingTypes from '../components/TrainingTypes.jsx';
+import WorkoutLog from '../components/WorkoutLog.jsx';
 
 const searchUrl = (name) =>
   `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(name + ' exercise form')}`;
@@ -239,6 +240,9 @@ export default function YiwaPlan() {
           <span style={{ fontSize: 10, color: '#7a6a66' }}><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: 2, background: '#EF9F27', marginRight: 3 }} />Optional run</span>
         </div>
       </div>
+
+      {/* WORKOUT LOG (Google Sheet) */}
+      <WorkoutLog sheetName="Yiwa's Log" accentColor="#D4537E" label="Yiwa workout log" />
 
       {/* IF NOTE */}
       <div className="card" style={{ background: '#FFF8F5', borderColor: '#F4C0D1' }}>
